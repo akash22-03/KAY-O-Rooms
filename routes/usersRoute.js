@@ -4,7 +4,7 @@ const User = require('../models/user')
 
 router.post('/register', async (req, res) => {
 
-  const newuser = new User(req.body)
+  const newuser = new User({ name: req.body.name, email: req.body.email, password: req.body.password })
 
   try {
     const user = await newuser.save()
@@ -23,7 +23,7 @@ router.post("/login", async (req, res) => {
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
-        _id: user._is,
+        _id: user._id,
       }
       res.send(temp)
     }
@@ -31,6 +31,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: 'Login Failed' })
     }
   } catch (error) {
+    console.log(error)
     return res.status(400).json({ error })
   };
 });
